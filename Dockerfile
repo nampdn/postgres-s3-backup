@@ -1,4 +1,4 @@
-FROM postgres:12.6
+FROM postgres:14.5
 
 RUN apt-get update -qq && apt-get install -y curl zip netcat cron
 
