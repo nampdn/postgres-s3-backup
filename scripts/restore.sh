@@ -26,10 +26,10 @@ if [ $# -eq 1 ]; then
 else
   echo "Finding latest backup..."
   key_suffix=$(
-    aws "$aws_args" s3 ls "$s3_uri_base/$POSTGRES_DATABASE" \
-      | sort \
-      | tail -n 1 \
-      | awk '{ print $4 }'
+    aws "$aws_args" s3 ls "$s3_uri_base/$POSTGRES_DATABASE" |
+      sort |
+      tail -n 1 |
+      awk '{ print $4 }'
   )
 fi
 
@@ -41,7 +41,7 @@ else
 
   if [ -n "$BACKUP_PASSPHRASE" ]; then
     echo "Decrypting backup..."
-    gpg --decrypt --batch --passphrase "$BACKUP_PASSPHRASE" db.dump.gpg > db.dump
+    gpg --decrypt --batch --passphrase "$BACKUP_PASSPHRASE" db.dump.gpg >db.dump
     rm db.dump.gpg
   fi
 
@@ -49,12 +49,12 @@ else
 
   echo "Restoring from backup..."
   pg_restore --clean \
-             -h "${POSTGRES_HOST:-postgres}" \
-             -p "${POSTGRES_PORT:-5432}" \
-             -U "$POSTGRES_USER" \
-             -d "$POSTGRES_DATABASE" \
-             "$PG_RESTORE_EXTRA_OPTS" \
-             --if-exists db.dump
+    -h "${POSTGRES_HOST:-postgres}" \
+    -p "${POSTGRES_PORT:-5432}" \
+    -U "$POSTGRES_USER" \
+    -d "$POSTGRES_DATABASE" \
+    "$PG_RESTORE_EXTRA_OPTS" \
+    --if-exists db.dump
   rm db.dump
 
   echo "Restore complete."
