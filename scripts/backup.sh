@@ -21,7 +21,7 @@ pg_dump --format=custom \
 
 timestamp=$(date +"%Y-%m-%dT%H:%M:%S")
 s3_uri_base="s3://${BACKUP_PATH}"
-aws_args="--endpoint-url https://s3.filebase.com"
+aws_args="--endpoint-url ${BACKUP_HOST}"
 
 s3_uri="${s3_uri_base}/${POSTGRES_DATABASE}_${timestamp}.dump"
 
